@@ -21,7 +21,6 @@ import datetime
 import logging
 import re
 import sys
-import tempfile
 
 from croniter import croniter
 
