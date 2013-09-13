@@ -31,6 +31,8 @@ from trello import TrelloClient
 logging.basicConfig(level=logging.DEBUG)
 LOG = logging.getLogger('cycle')
 
+LAST_RUN_PATH = '/run/lock/trello_cycle_last_run'
+
 
 def get_board(trello_client):
     boards = trello_client.list_boards()
@@ -95,6 +97,21 @@ def copy_card_to_dstlist(card, dstlist):
     dstlist.add_card(card.name, card.description)
 
 
+def get_last_run():
+    try:
+        with open(LAST_RUN_PATH, 'r') as f:
+            last_run = datetime.datetime.fromtimestamp(float(f.read()))
+    except (IOError, ValueError):
+        return datetime.datetime.fromtimestamp(0.0)  # last run loooong ago
+
+    return last_run
+
+
+def set_last_run(last_run):
+    secs = (last_run - datetime.datetime.fromtimestamp(0)).total_seconds()
+    with open(LAST_RUN_PATH, 'w') as f:
+        f.write(str(secs))
+
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='Naval Fate 2.0')
     token = arguments.get('--token')
@@ -104,6 +121,7 @@ if __name__ == '__main__':
     dstlist_name = arguments.get('--dstlist')
 
     run_time = datetime.datetime.now()
+    last_run = get_last_run()
 
     trello_client = TrelloClient(key, token)
 
@@ -113,7 +131,9 @@ if __name__ == '__main__':
 
     handle_cards(
         zip(cronlines, cards),
-        last_run=datetime.datetime.now() - datetime.timedelta(hours=2),
+        last_run=last_run,
         handling_time=run_time,
         dstlist=_get_list_by_name(board.all_lists(), dstlist_name)
     )
+
+    set_last_run(run_time)
