@@ -2,7 +2,7 @@
 """Handle Trello cyclic events.
 
 Usage:
-  cycle.py --key=<key> --secret=<secret> --token=<token> --board=<board> --cfglist=<cfglist> --dstlist=<dstlist>
+  cycle.py --key=<key> --token=<token> --board=<board> --cfglist=<cfglist> --dstlist=<dstlist>
   cycle.py (-h | --help)
   cycle.py --version
 
@@ -10,7 +10,6 @@ Options:
   -h --help              Show this screen.
   --version              Show version.
   --key=<key>            Developer key.
-  --secret=<secret>      Developer Secret.
   --token=<token>        User token.
   --board=<board>        Board name.
   --cfglist=<cfg_list>   Config list.
