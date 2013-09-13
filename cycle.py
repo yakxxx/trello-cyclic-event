@@ -1,5 +1,5 @@
 #!/bin/python
-"""Naval Fate.
+"""Handle Trello cyclic events.
 
 Usage:
   cycle.py --key=<key> --secret=<secret> --token=<token> --board=<board> --cfglist=<cfglist> --dstlist=<dstlist>
