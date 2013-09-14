@@ -30,6 +30,7 @@ logging.basicConfig(level=logging.DEBUG)
 LOG = logging.getLogger('cycle')
 
 LAST_RUN_PATH = '/run/lock/trello_cycle_last_run'
+__version = "0.1b"
 
 
 def get_board(trello_client):
@@ -111,7 +112,7 @@ def set_last_run(last_run):
         f.write(str(secs))
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version='Naval Fate 2.0')
+    arguments = docopt(__doc__, version=__version)
     token = arguments.get('--token')
     key = arguments.get('--key')
     board_name = arguments.get('--board')
